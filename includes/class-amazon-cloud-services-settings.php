@@ -102,7 +102,14 @@ class Amazon_Cloud_Services_Settings {
 		);
 		*/
 		
-		add_submenu_page( 'acs_plugin_panel', 'Settings', 'Settings', 'manage_options', 'amazon-cloud-services', array( $this, 'settings_page' ) );
+		add_submenu_page( 
+			'acs_plugin_panel', 
+			'Access Keys', 
+			'Access Keys', 
+			'manage_options', 
+			'amazon-cloud-services', 
+			array( $this, 'settings_page' )
+		);
 	}
 
 	/**
@@ -155,8 +162,8 @@ class Amazon_Cloud_Services_Settings {
 	 */
 	private function settings_fields () {
 
-		$settings['settings'] = array(
-			'title'					=> __( 'Settings', 'amazon-cloud-services' ),
+		$settings['keys'] = array(
+			'title'					=> __( 'Access Keys', 'amazon-cloud-services' ),
 			'description'			=> 'It is recommended to define your access keys in wp-config.php but you can also store them in the database using the following form.',
 			'fields'				=> array(
 				array(
@@ -179,6 +186,8 @@ class Amazon_Cloud_Services_Settings {
 				)
 			) 
 		);
+		
+		$settings = apply_filters('aws_cloud_settings',$settings);
 		
 		$settings['addons'] = array(
 			'title'					=> __( 'Addons', 'amazon-cloud-services' ),
@@ -228,22 +237,25 @@ class Amazon_Cloud_Services_Settings {
 
 				// Add section to page
 				add_settings_section( $section, $data['title'], array( $this, 'settings_section' ), $this->parent->_token . '_settings' );
-
-				foreach ( $data['fields'] as $field ) {
-					
-					// Validation callback for field
-					$validation = '';
-					if ( isset( $field['callback'] ) ) {
+				
+				if( !empty($data['fields']) ){
+				
+					foreach ( $data['fields'] as $field ) {
 						
-						$validation = $field['callback'];
+						// Validation callback for field
+						$validation = '';
+						if ( isset( $field['callback'] ) ) {
+							
+							$validation = $field['callback'];
+						}
+
+						// Register field
+						$option_name = $this->base . $field['id'];
+						register_setting( $this->parent->_token . '_settings', $option_name, $validation );
+
+						// Add field to page
+						add_settings_field( $field['id'], $field['label'], array( $this->parent->admin, 'display_field' ), $this->parent->_token . '_settings', $section, array( 'field' => $field, 'prefix' => $this->base ) );
 					}
-
-					// Register field
-					$option_name = $this->base . $field['id'];
-					register_setting( $this->parent->_token . '_settings', $option_name, $validation );
-
-					// Add field to page
-					add_settings_field( $field['id'], $field['label'], array( $this->parent->admin, 'display_field' ), $this->parent->_token . '_settings', $section, array( 'field' => $field, 'prefix' => $this->base ) );
 				}
 
 				if ( ! $current_section ) break;
