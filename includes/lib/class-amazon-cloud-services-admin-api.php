@@ -521,6 +521,10 @@ class Amazon_Cloud_Services_Admin_API {
 
 		foreach ( $fields as $field ) {
 			
+			if( empty($field['id']) )
+				
+				continue;
+				
 			if ( isset( $_REQUEST[ $field['id'] ] ) ) {
 				
 				update_post_meta( $post_id, $field['id'], $this->validate_field( $_REQUEST[ $field['id'] ], $field['type'] ) );

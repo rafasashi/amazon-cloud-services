@@ -115,8 +115,8 @@ class Amazon_Cloud_Services {
 		$this->views   		= trailingslashit( $this->dir ) . 'views';
 		$this->vendor   	= trailingslashit( $this->dir ) . 'sdk/v3/vendor/';
 		$this->assets_dir 	= trailingslashit( $this->dir ) . 'assets';
-		$this->assets_url 	= esc_url( trailingslashit( plugins_url( '/assets/', $this->file ) ) );
-
+		$this->assets_url 	= home_url( trailingslashit( str_replace( ABSPATH, '', $this->dir ))  . 'assets/' );
+		
 		$this->script_suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
 		Amazon_Cloud_Services::$plugin_prefix 		= $this->_base;
