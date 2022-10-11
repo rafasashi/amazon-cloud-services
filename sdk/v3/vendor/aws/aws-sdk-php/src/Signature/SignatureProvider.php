@@ -40,6 +40,12 @@ use Aws\Exception\UnresolvedSignatureException;
  */
 class SignatureProvider
 {
+    private static $s3v4SignedServices = [
+        's3' => true,
+        's3control' => true,
+        's3-object-lambda' => true,
+    ];
+
     /**
      * Resolves and signature provider and ensures a non-null return value.
      *
@@ -111,11 +117,15 @@ class SignatureProvider
             switch ($version) {
                 case 's3v4':
                 case 'v4':
-                    return $service === 's3'
+                    return !empty(self::$s3v4SignedServices[$service])
                         ? new S3SignatureV4($service, $region)
                         : new SignatureV4($service, $region);
+                case 'v4a':
+                    return new SignatureV4($service, $region, ['use_v4a' => true]);
                 case 'v4-unsigned-body':
-                    return new SignatureV4($service, $region, ['unsigned-body' => 'true']);
+                    return !empty(self::$s3v4SignedServices[$service])
+                    ? new S3SignatureV4($service, $region, ['unsigned-body' => 'true'])
+                    : new SignatureV4($service, $region, ['unsigned-body' => 'true']);
                 case 'anonymous':
                     return new AnonymousSignature();
                 default:

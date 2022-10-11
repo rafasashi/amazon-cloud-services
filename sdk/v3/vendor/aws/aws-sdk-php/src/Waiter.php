@@ -2,7 +2,7 @@
 namespace Aws;
 
 use Aws\Exception\AwsException;
-use GuzzleHttp\Promise;
+use GuzzleHttp\Promise\Coroutine;
 use GuzzleHttp\Promise\PromisorInterface;
 use GuzzleHttp\Promise\RejectedPromise;
 
@@ -86,9 +86,12 @@ class Waiter implements PromisorInterface
         }
     }
 
+    /**
+     * @return Coroutine
+     */
     public function promise()
     {
-        return Promise\coroutine(function () {
+        return Coroutine::of(function () {
             $name = $this->config['operation'];
             for ($state = 'retry', $attempt = 1; $state === 'retry'; $attempt++) {
                 // Execute the operation.
@@ -222,13 +225,7 @@ class Waiter implements PromisorInterface
         }
 
         $actuals = $result->search($acceptor['argument']) ?: [];
-        foreach ($actuals as $actual) {
-            if ($actual == $acceptor['expected']) {
-                return true;
-            }
-        }
-
-        return false;
+        return in_array($acceptor['expected'], $actuals);
     }
 
     /**
