@@ -187,23 +187,6 @@ class Amazon_Cloud_Services_Settings {
 			) 
 		);
 		
-		$settings = apply_filters('aws_cloud_settings',$settings);
-		
-		$settings['addons'] = array(
-			'title'					=> __( 'Addons', 'amazon-cloud-services' ),
-			'description'			=> '',
-			'class'					=> 'pull-right',
-			'logo'					=> $this->parent->assets_url . '/images/recuweb-icon.png',
-			'fields'				=> array(
-				array(
-					'id' 			=> 'addon_plugins',
-					'label' 		=> '',
-					'type'			=> 'addon_plugins',
-					'description'	=> ''
-				)				
-			),
-		);
-
 		$settings = apply_filters( $this->parent->_token . '_settings_fields', $settings );
 
 		return $settings;	
@@ -261,24 +244,6 @@ class Amazon_Cloud_Services_Settings {
 				if ( ! $current_section ) break;
 			}
 		}
-		
-		
-		//get addons
-	
-		$this->addons = array(
-			
-			'aws-s3-integration' => array(
-			
-				'title' 		=> 'AWS S3 Integration',
-				'addon_link' 	=> 'https://code.recuweb.com/download/aws-s3-integration/',
-				'addon_name' 	=> 'aws-s3-integration',
-				'source_url' 	=> '',
-				'logo_url' 		=> 'https://code.recuweb.com/c/u/3a09f4cf991c32bd735fa06db67889e5/2018/07/aws-s3-integration-squared-300x300.png',
-				'description'	=> 'Extends Amazon Cloud Services to provide S3 integration into the media library',
-				'author' 		=> 'Code Market',
-				'author_link' 	=> 'https://code.recuweb.com/about-us/',
-			),
-		);
 	}
 
 	public function settings_section ( $section ) {
