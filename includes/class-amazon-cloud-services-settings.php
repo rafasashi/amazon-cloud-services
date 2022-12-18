@@ -85,23 +85,6 @@ class Amazon_Cloud_Services_Settings {
 		remove_submenu_page( 'acs_plugin_panel', 'acs_plugin_panel' );
 		
 		/*
-		add_submenu_page(
-			'acs_plugin_panel',
-			__( 'All tasks', 'amazon-cloud-services' ),
-			__( 'All tasks', 'amazon-cloud-services' ),
-			'edit_pages',
-			'edit.php?post_type=acs-todo-task'
-		);
-		
-		add_submenu_page(
-			'acs_plugin_panel',
-			__( 'Task lists', 'amazon-cloud-services' ),
-			__( 'Task lists', 'amazon-cloud-services' ),
-			'edit_pages',
-			'edit.php?post_type=acs-todo-list'
-		);
-		*/
-		
 		add_submenu_page( 
 			'acs_plugin_panel', 
 			'Access Keys', 
@@ -110,6 +93,7 @@ class Amazon_Cloud_Services_Settings {
 			'amazon-cloud-services', 
 			array( $this, 'settings_page' )
 		);
+		*/
 	}
 
 	/**
@@ -161,7 +145,10 @@ class Amazon_Cloud_Services_Settings {
 	 * @return array Fields to be displayed on settings page
 	 */
 	private function settings_fields () {
-
+		
+		$settings = array();
+		
+		/*
 		$settings['keys'] = array(
 			'title'					=> __( 'Access Keys', 'amazon-cloud-services' ),
 			'description'			=> 'It is recommended to define your access keys in wp-config.php but you can also store them in the database using the following form.',
@@ -186,6 +173,7 @@ class Amazon_Cloud_Services_Settings {
 				)
 			) 
 		);
+		*/
 		
 		$settings = apply_filters( $this->parent->_token . '_settings_fields', $settings );
 
