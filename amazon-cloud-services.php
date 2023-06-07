@@ -3,7 +3,7 @@
  * Plugin Name: Amazon Web Services
  * Plugin URI: https://code.recuweb.com/download/amazon-cloud-services/
  * Description: This plugin provides the Amazon Web Services SDK to integrate Amazon Services such as S3 or SES
- * Version: 3.0.3
+ * Version: 3.0.4
  * Author: Rafasashi
  * Author URI: https://code.recuweb.com/about-us/
  * Requires at least: 4.6
@@ -34,6 +34,13 @@
 	require_once( 'includes/lib/class-amazon-cloud-services-admin-notices.php' );
 	require_once( 'includes/lib/class-amazon-cloud-services-post-type.php' );
 	require_once( 'includes/lib/class-amazon-cloud-services-taxonomy.php' );		
+	
+	add_action('wp2e_autoload_amazon-cloud-services',function(){
+		
+		require_once __DIR__ . '/sdk/v3/vendor/autoload.php';
+
+		do_action('wp2e_amazon-cloud-services_loaded');
+	});
 	
 	/**
 	 * Returns the main instance of Amazon_Cloud_Services to prevent the need to use globals.
