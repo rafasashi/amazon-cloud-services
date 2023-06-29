@@ -3,7 +3,7 @@
  * Plugin Name: Amazon Web Services
  * Plugin URI: https://code.recuweb.com/download/amazon-cloud-services/
  * Description: This plugin provides the Amazon Web Services SDK to integrate Amazon Services such as S3 or SES
- * Version: 3.0.4
+ * Version: 3.0.5
  * Author: Rafasashi
  * Author URI: https://code.recuweb.com/about-us/
  * Requires at least: 4.6
